@@ -1,0 +1,287 @@
+
+body{
+  background-image: url('../images/bienvenido.jpg');
+background-size:  100%;
+}
+nav {
+  background:rgba(25,25,25,0.9);
+  position:fixed;
+  top: 0;
+  left: 0;
+  height:20%;
+  width: 100%;
+  z-index: 12;
+}
+
+
+
+
+  
+
+
+.submenu{
+  color: white;
+  z-index: 20;
+}
+
+
+
+
+#no{
+
+  background-color: transparent;
+}
+#no:hover{
+  background-color: transparent;
+}
+
+
+
+
+
+@font-face {
+  font-family: 'Monoton';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Monoton'), local('Monoton-Regular'), url(http://themes.googleusercontent.com/static/fonts/monoton/v4/AKI-lyzyNHXByGHeOcds_w.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Iceland'), local('Iceland-Regular'), url(http://themes.googleusercontent.com/static/fonts/iceland/v3/F6LYTZLHrG9BNYXRjU7RSw.woff) format('woff');
+}
+
+
+
+/*neon effect*/
+p{
+  top: 0;
+  position: absolute;
+  text-align:center;
+  font-size:30pt;
+  margin:20px 0 20px 0;
+}
+
+a{
+  text-decoration:none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+p:nth-child(1) a{
+
+    color:#2dd114;
+  font-family:Monoton;
+  left: 30px;
+   -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
+  animation: neon1 1.5s ease-in-out infinite alternate;
+}
+
+
+.td h3{
+
+   
+  margin:20px 0 20px 0;
+font-size:1.5em;
+  background: linear-gradient(red, pink);
+ext-decoration: bold;
+  font-variant: arial;
+  -webkit-background-clip:text;
+  color:transparent;
+
+  font-family:Iceland;
+    font-weight: bold;
+
+
+  
+}
+p a:hover{
+color:#ffffff;
+}
+
+/*glow for webkit-ket-frames*/
+@-webkit-keyframes neon1 {
+  from {
+    text-shadow: 0 0 10px #ffffff,
+             
+               0 0 40px  red,
+               0 0 70px  red,
+               0 0 80px  red,
+               0 0 100px red,
+               0 0 150px red;
+  }
+  to {
+    text-shadow: 0 0 5px #ffffff,
+               
+               0 0 20px red,
+               0 0 35px red,
+               0 0 40px red,
+               0 0 50px red,
+               0 0 75px red;
+  }
+}
+
+
+
+/*glow for mozilla-keyframes*/
+@-moz-keyframes neon1 {
+  from {
+    text-shadow: 0 0 10px #ffffff,
+               
+               0 0 40px  red,
+               0 0 70px  red,
+               0 0 80px  red,
+               0 0 100px red,
+               0 0 150px red;
+  }
+  to {
+    text-shadow: 0 0 5px #ffffff,
+            
+               0 0 20px red,
+               0 0 35px red,
+               0 0 40px red,
+               0 0 50px red,
+               0 0 75px red;
+  }
+}
+
+
+/*glow*/
+
+@keyframes neon1 {
+  from {
+    text-shadow: 0 0 10px #ffffff,
+              
+               0 0 40px  red,
+               0 0 70px  red,
+               0 0 80px  red,
+               0 0 100px red,
+               0 0 150px red;
+  }
+  to {
+    text-shadow: 0 0 5px #ffffff,
+              
+               0 0 20px red,
+               0 0 35px red,
+               0 0 40px red,
+               0 0 50px red,
+               0 0 75px red;
+  }
+}
+
+/*para ajustar la imagen*/
+
+
+
+img {
+  top: 0;
+  position: fixed;
+  width:300px;
+  height:150px;
+}
+img:hover{
+  width: 400px;
+  height: 200px;
+}
+
+
+
+/*estilos para el munu*/
+.nav {
+  
+
+  position: relative;
+  width: 100%;
+  height: 50px;
+  background-color: #34495e;
+  border-radius: 8px;
+  font-size: 0;
+  margin-top: 150px;
+
+}
+.nav a {
+  line-height: 50px;
+  height: 100%;
+  font-size: 15px;
+  display: inline-block;
+  position: relative;
+  z-index: 11;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+.nav .animation {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  z-index: 10;
+  transition: all .5s ease 0s;
+  border-radius: 8px;
+}
+a:nth-child(1) {
+  width: 100px;
+}
+a:nth-child(2) {
+  width: 110px;
+}
+a:nth-child(3) {
+  width: 100px;
+}
+a:nth-child(4) {
+  width: 160px;
+}
+a:nth-child(5) {
+  width: 120px;
+}
+.nav .start-home, a:nth-child(1):hover~.animation {
+  width: 100px;
+  left: 0;
+  background-color: #1abc9c;
+}
+.nav .start-about, a:nth-child(2):hover~.animation {
+  width: 110px;
+  left: 100px;
+  background-color: #e74c3c;
+}
+.nav .start-blog, a:nth-child(3):hover~.animation {
+  width: 100px;
+  left: 210px;
+  background-color: #3498db;
+}
+.nav .start-portefolio, a:nth-child(4):hover~.animation {
+  width: 160px;
+  left: 310px;
+  background-color: #9b59b6;
+}
+.nav .start-contact, a:nth-child(5):hover~.animation {
+  width: 120px;
+  left: 470px;
+  background-color: #e67e22;
+}
+
+
+
+      #miVentana1{
+         background-color: blue;
+         width: 150px;
+         height: 150px;
+z-index: 1;
+position: relative;
+      left: 0;
+    
+
+
+
+     display: block;
+      }
+
+      
+
+
+/*aqui termina el codigo dde esti;los para me*/
