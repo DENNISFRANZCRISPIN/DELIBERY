@@ -5,8 +5,7 @@ session_start();
 include("funciones.php");
 $conex=conectar();
 
-$codsuptipo=$_GET['codsubtipo'];
-$nom=$_GET['nombre'];
+
 
 
 ?>
@@ -15,7 +14,7 @@ $nom=$_GET['nombre'];
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MENU DE ROPAS</title>
+    <title>pagina principal </title>
     <!-- Bootstrap Styles-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -35,20 +34,26 @@ $nom=$_GET['nombre'];
 
  $("#paneldesession").hide();
  $("#paneldemujer").hide();
-
+$("#registrarPEDIDO").hide();
  $("#paneldehombre").hide();
 
  $("#paneldenino").hide();
   $("#panelpedido").hide();
+  $("#panelpedidos").hide();
   $("#panelREGISTROUSUARIO").hide();
+  var codcliactu=''
+  var codproactu=''
 
     //queremos que esta variable sea global
  
 $('#registrarusuario').click(function() {
-
-       // alert('registrado correctamente');
-       var nombreusuario=$('#nombredecliente').val();
-       var numerodecel=$('#numerodecel').val();
+   
+//alert('registrado correctamente');
+       //alert('registrado correctamente');
+       var nombreusuario=$('#NOMCLI').val();
+       var numerodecel=$('#NUMCEL').val();
+       var dirrecion=$('#DIREC').val();
+       var nit=$('#NITT').val();
        //alert('asignacionesgg');
 
 
@@ -56,7 +61,7 @@ $('#registrarusuario').click(function() {
 
         type:"GET",
         url:"pr_regusuario.php",
-        data:'nom='+nombreusuario+'&cel='+numerodecel,
+        data:'nom='+nombreusuario+'&cel='+numerodecel+'&dir='+dirrecion+'&nit='+nit,
         success: retornoderegistro
                     });
                     return false; 
@@ -72,14 +77,20 @@ $('#registrarusuario').click(function() {
 });
 
 function retornoderegistro(valu){
+  codcliactu=valu;
+      //alert(codcliactu);
   
-   alert(valu);
+   alert('registro exitoso');
+      $("#panelREGISTROUSUARIO").hide(500);
    
-     $('#nombredecliente').val('');
-     $('#numerodecel').val('');
+$("#registrarPEDIDO").show(500);
 
 
 }
+
+
+
+
 
 function cambiarcantidad(){
 
@@ -100,10 +111,18 @@ $("#totalprec").val(total);
             $("#paneldesession").hide(500);
 
         }
+
+        function salirdespanelpedido(){
+           $("#panelpedidos").hide(500); 
+
+
+
+        }
         function abrirventanadesesion(){
 
-          $("#nombredeusuario").val('');
+         $("#nombredeusuario").val('');
           $("#contraseñadeusuario").val('');
+        
              $("#paneldesession").show(500);
 
         }
@@ -124,33 +143,36 @@ $("#totalprec").val(total);
 
        }
 
-function  mostrartallas(val){
+function  iniciarsesion(){
 
 
+var nom= $("#nombredeusuario").val('');
+          var contra=$("#contraseñadeusuario").val('');
+         // alert("bienvenido su contraseña la sidoaceptada");
 
-  var codig=val;
 
- //alert(codig);
+          
+
  
 
 
   $.ajax({
 
         type:"GET",
-        url:"busquedadetallasexistentes.php",
-        data:'codig='+codig,
-        success: retornotallas
+        url:"lista.php",
+        data:'NOM='+nom+'&contras='+contra,
+        success: retornolistas
                     });
           return false;
 
 }
 
 
-function retornotallas(valu){
+function retornolistas(valu){
 
  // alert(valu);
-
-  $("#cbotallas").html(valu);
+$("#panelpedido").show(500);
+  $("#panelpedido").html(valu);
 
 
 
@@ -158,16 +180,57 @@ function retornotallas(valu){
 
 
 }
-function mandartalla(valor){
+function salirpedidossss(){
+  $("#panelpedido").hide(500);
+}
 
-  //alert(valor);
-  var talla=valor;
 
-     var descripcion=$('#descripcion').val();
-     var material=$('#material').val();
-     var cod=$('#cod').val();
-     var tipo=$('#tipo').val();
-     var color=$('#color').val();
+
+function  enviar(val){
+var estado=val;
+alert(estado);
+
+
+
+
+          
+
+ 
+
+
+  $.ajax({
+
+        type:"GET",
+        url:"actulista.php",
+        data:'est='+estado,
+        success: retornoactulista
+                    });
+          return false;
+
+}
+
+
+function retornoactulista(valu){
+
+ // alert(valu);
+$("#panelpedido").hide(500);
+  $("#panelpedido").html(valu);
+  $("#panelpedido").show(500);
+
+
+
+
+
+
+}
+
+
+function resgistrarpedido(){
+
+ 
+
+     var cantidad=$('#CANTIDAD').val();
+     
 
 
 
@@ -175,16 +238,18 @@ function mandartalla(valor){
      $.ajax({
 
         type:"GET",
-        url:"pedidosfin.php",
-        data:'descripcion='+descripcion+'&material='+material+'&talla='+talla+'&cod='+cod+'&tipo='+tipo+'&color='+color,
-        success: retonrnonumprecod
+        url:"resgistropedido.php",
+        data:'codpro='+codproactu+'&codcli='+codcliactu+'&cantidad='+cantidad,
+        success: retonoregistrarpedidos
                     });
                     return false;
 }
-function retonrnonumprecod(valores){
+function retonoregistrarpedidos(valores){
+  alert(valores);
+  $("#panelpedidos").hide(500);
 
-  $("#todossomos").html('');
-   $("#todossomos").html(valores);
+  //$("#todossomos").html('');
+  // $("#todossomos").html(valores);
 
 
 }
@@ -197,34 +262,23 @@ function retonrnonumprecod(valores){
 
           var cob='salirdehombre()';
 
+          $("#paneldehombre").show(500);
+
           
     //alert(tipo);
 
 
+        }
 
-           $.ajax({
 
-        type:"GET",
-        url:"pr_buscaropa.php",
-        data:'CATEGO='+CATEGO+'&tipo='+tipo+'&datu='+cob,
-        success: retornobushombre
-                    });
-                    return false; 
+
+  
 
            
 
+         
 
-        }
-
-
-
-        function retornobushombre(value){
-
-           $("#paneldehombre").html(value);
-
-         $("#paneldehombre").show();
-
-        }
+        
 
 
 
@@ -235,40 +289,7 @@ function retonrnonumprecod(valores){
 
         }
 
-        function  mostarmujeres1(val){
-         
-
-          var tipo=val;
-          var CATEGO='M01';
-
-          var cob='salirdemujer()';
-    //alertpanelpedido(tipo);
-
-
-
-           $.ajax({
-
-        type:"GET",
-        url:"pr_buscaropa.php",
-        data:'CATEGO='+CATEGO+'&tipo='+tipo+'&datu='+cob,
-        success: retornobusmujer
-                    });
-                    return false; 
-
-           
-
-
-        }
-
- 
-         function retornobusmujer(VALAL){
-
-           $("#paneldemujer").html(VALAL);
-
-         $("#paneldemujer").show(500);
-
-        }
-
+        
 function vender(alos){
 
 
@@ -317,11 +338,8 @@ var catego=$("#codigocat").val();
 function retornocompra(vals){
 
 
-$("#paneldemujer").hide(500);
 
  $("#paneldehombre").hide(500);
-
- $("#paneldenino").hide(500);
 
 
  $("#panelpedido").hide(500);
@@ -338,83 +356,13 @@ $("#paneldemujer").hide(500);
 }
 
 
-        function salirdemujer(){
 
-             $("#paneldemujer").hide(500);
-
-
-        }
- 
-
- function  mostarninos1(val){
-
-
-          var tipo=val;
-          var CATEGO='N03';
-
-          var cob='salirdenino()';
-    //alert(tipo);
-
-
-
-           $.ajax({
-
-        type:"GET",
-        url:"pr_buscaropa.php",
-        data:'CATEGO='+CATEGO+'&tipo='+tipo+'&datu='+cob,
-        success: retornoNINO
-                    });
-                    return false; 
-
-
-        
-
-
-        }
-
-
-        function retornoNINO(PENINO){
-
-           $("#paneldenino").html(PENINO);
-
-         $("#paneldenino").show(500);
-
-
-        }
-
-
-        function salirdenino(){
-
-             $("#paneldenino").hide(500);
-
-
-        }
         function mostrarpedido(alo){
+         //alo alert(alo);
+         codproactu=alo;
+          $("#paneldehombre").hide(500);
 
-          //alert(alo);
-
-
-
-
-
-          var cod=alo;
-        
-
-      
-    //alert(tipo);
-
-
-
-           $.ajax({
-
-        type:"GET",
-        url:"pr_pedido.php",
-        data:'&codrop='+cod,
-        success: retornopedido
-                    });
-                    return false; 
-
-         
+          $("#panelpedidos").show(500); 
 
         }
 
@@ -425,8 +373,8 @@ function retornopedido(dos){
 
 }
 
-        function salirdepedido(){
-$("#panelpedido").hide(500);
+        function salirdepedidos(){
+$("#panelpedidos").hide(500);
 
         }
 
@@ -507,57 +455,18 @@ $("#panelpedido").hide(500);
 
 
 
-  <div class="col-lg-8" id="imagentitulo"> <center><img src="imagenes/LOGOJORDI.jpg" style="width: 600pt; height: 600pt;"></center></div>
+  <div class="col-lg-8" id="imagentitulo"> <center><img src="imagenes/del.jpg" style="width: 600pt; height: 600pt;"></center></div>
   <div class="col-lg-4" id="contenidorandom">
     
      <div class="dropdown col-lg-12">
   <br>
   <br>
-  <button class="btn btn-lg btn-primary dropdown-toggle col-lg-12"  style="font-size: 24pt;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
-    HOMBRE
-  </button><div class="dropdown-menu col-lg-12"   style="background-color: white;" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item col-lg-12" onclick="mostarhomres1('Chompa')" style="font-size: 24pt; color: black; font-family: fantasy;">CHOMPAS</a> <br>
-    <a class="dropdown-item col-lg-12" onclick="mostarhomres1('Buso')" style="font-size: 24pt; color: black; font-family: fantasy;"> BUSOS</a><br>
-    <a class="dropdown-item col-lg-12" onclick="mostarhomres1('Gorro')" style="font-size: 24pt; color: black; font-family:fantasy; ">GORROS</a>
-
-    <a class="dropdown-item col-lg-12" onclick="mostarhomres1('Sacon')" style="font-size: 24pt; color: black; font-family:fantasy; ">SACON</a>
-    <a class="dropdown-item col-lg-12" onclick="mostarhomres1('Chaleco')" style="font-size: 24pt; color: black; font-family:fantasy; ">CHALECO</a>
-  </div>
-</div>
-
-<div class="dropdown col-lg-12">
-  <br>
-  <br>
-  <button class="btn btn-lg btn-danger dropdown-toggle col-lg-12"  style="font-size: 24pt;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
-    MUJER
+  <button class="btn btn-lg btn-primary dropdown-toggle col-lg-12" onclick="mostarhomres1()"   style="font-size: 24pt;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
+    Mostrar productos
   </button>
-  <div class="dropdown-menu col-lg-12"   style="background-color: white;" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item col-lg-12" onclick="mostarmujeres1('Chompa')" style="font-size: 24pt; color: black; font-family: fantasy;">CHOMPAS</a> <br>
-    <a class="dropdown-item col-lg-12" onclick="mostarmujeres1('Buso')" style="font-size: 24pt; color: black; font-family: fantasy;"> BUSOS</a><br>
-    <a class="dropdown-item col-lg-12" onclick="mostarmujeres1('Gorro')" style="font-size: 24pt; color: black; font-family:fantasy; ">GORROS</a>
-
-    <a class="dropdown-item col-lg-12" onclick="mostarmujeres1('Sacon')" style="font-size: 24pt; color: black; font-family:fantasy; ">SACON</a>
-    <a class="dropdown-item col-lg-12" onclick="mostarmujeres1('Chaleco')" style="font-size: 24pt; color: black; font-family:fantasy; ">CHALECO</a>
   </div>
 </div>
 
-
-<div class="dropdown col-lg-12">
-  <br>
-  <br>
-  <button class="btn btn-lg btn-success dropdown-toggle col-lg-12"  style="font-size: 24pt;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
-    NIÑO
-  </button>
-  <div class="dropdown-menu col-lg-12"   style="background-color: white;" aria-labelledby="dropdownMenuButton">
-    
-      <a class="dropdown-item col-lg-12" onclick="mostarninos1('Chompa')" style="font-size: 24pt; color: black; font-family: fantasy;">CHOMPAS</a> <br>
-    <a class="dropdown-item col-lg-12" onclick="mostarninos1('Buso')" style="font-size: 24pt; color: black; font-family: fantasy;"> BUSOS</a><br>
-    <a class="dropdown-item col-lg-12" onclick="mostarninos1('Gorro')" style="font-size: 24pt; color: black; font-family:fantasy; ">GORROS</a>
-
-    <a class="dropdown-item col-lg-12" onclick="mostarninos1('Sacon')" style="font-size: 24pt; color: black; font-family:fantasy; ">SACON</a>
-    <a class="dropdown-item col-lg-12" onclick="mostarninos1('Chaleco')" style="font-size: 24pt; color: black; font-family:fantasy; ">CHALECO</a>
-  </div>
-</div>
 
 
 
@@ -568,6 +477,62 @@ $("#panelpedido").hide(500);
 </div>
 
 
+
+   <div class="panel panel-primary col-md-12" id="panelpedidos"  style="background-color: rgba(25,25,25,0.7); z-index: 1003; position:absolute; 
+top: 0; height: 100%;">
+
+<br><br><br>
+<div class="col-lg-4"></div>
+
+  
+  <div class="panel-primary col-lg-4" style=" background:white; border-bottom: 5pt;" > 
+
+
+
+<div class="col-lg-12">
+<br>
+      <center><h2 class=" col-lg-10 text text-danger" style="font-weight: bold; background:white;">PEDIDO</h2></center>
+        <a href="javascript:salirdespanelpedido()"  style="float:right;" class=" btn btn-danger btn-lg"><i class="fa fa-times" ></i></a><br><br>
+      </div>
+
+
+
+<form>
+  <br>
+  <div class="form-group">
+
+
+    <label for="nombredeusuario">CANTIDAD</label>
+    <input type="number" class="form-control" id="CANTIDAD">
+    
+  </div>
+  
+  <br>
+<CENTER><div clas="form-group">
+  <a href="javascript:abrirventanaderegusu()" style="float:right;" class=" btn btn-danger btn-lg">REGISTRAR  CLIENTE</a><br><br>
+</div></CENTER>
+<br><br><br>
+
+<div class="form-group">
+
+  
+<a  id="registrarPEDIDO" href="javascript:resgistrarpedido()" style="float:right;" class="btn btn-lg btn-primary"">REGISTRAR  pedido</a><br><br>
+</div></CENTER>
+
+
+
+  </div>
+ 
+  
+</form>
+
+
+
+
+
+  </div>
+
+</div>
 
 
 
@@ -606,8 +571,7 @@ top: 0; height: 100%;">
   </div>
   <br>
 <div class="form-group">
-   <button type="button" class="btn btn-lg btn-primary">INGRESAR</button> 
-<a href="javascript:abrirventanaderegusu()" style="float:right;" class=" btn btn-danger btn-lg">REGISTRAR NUEVO CLIENTE</a><br><br>
+   <button type="button" onclick="iniciarsesion()" class="btn btn-lg btn-primary">INGRESAR</button> 
 
 
 
@@ -639,7 +603,7 @@ top: 0; height: 100%;"id="contenedor_registro_atractivo">
 
 <div class="col-lg-12">
 <br>
-      <center><h2 class=" col-lg-10 text text-danger" style="font-weight: bold; background:white;">FORMULARIO DE REGISTRO DE USUARIO</h2></center>
+      <center><h2 class=" col-lg-10 text text-danger" style="font-weight: bold; background:white;">FORMULARIO DE REGISTRO DE CLIENTE</h2></center>
         <a href="javascript:salirdeREGUSU()"  style="float:right;" class=" btn btn-danger btn-lg"><i class="fa fa-times" ></i></a><br><br>
       </div>
 
@@ -649,12 +613,20 @@ top: 0; height: 100%;"id="contenedor_registro_atractivo">
   <br>
   <div class="form-group">
     <label for="nombredeusuario">Nombre</label>
-    <input type="text" class="form-control" id="nombredecliente" placeholder="ejemplo: Juan Perez">
+    <input type="text" class="form-control" id="NOMCLI" placeholder="ejemplo: Juan Perez">
   </div>
   <br>
 
    <div class="contraseñadeusuario">Celular</label>
-    <input type="text" class="form-control" id="numerodecel" placeholder="########">
+    <input type="text" class="form-control" id="NUMCEL" placeholder="########">
+  </div>
+  <br>
+  <div class="contraseñadeusuario">nit</label>
+    <input type="text" class="form-control" id="NITT" placeholder="########">
+  </div>
+  <br>
+  <div class="contraseñadeusuario">DIRECCION</label>
+    <input type="text" class="form-control" id="DIREC" placeholder="CALLE X">
   </div>
   <br>
 <div class="form-group">
@@ -703,6 +675,57 @@ top: 0; height: 100%;">
   
 
      
+<?php
+
+
+echo "<center><h2 class=' col-lg-10 text text-danger' style='font-weight: bold; background:white;'>PRODUCTOS DISPONIBLES  </h2></center>
+
+        <a href='javascript:salirdehombre()'  style='float:right;' class='btn btn-danger btn-lg'><i class='fa fa-times' ></i></a>
+
+        <br><br><br><br>"
+        ;
+
+       $consultatipodesc=mysql_query("SELECT * FROM productos");
+
+           while ( $filatipo=mysql_fetch_array($consultatipodesc)) {
+
+
+          echo" <div class='panel-primary col-lg-2' style='background-color: white; border-radius: 15px;'>
+  <br><br>
+  <center>
+    <img src='$filatipo[5]' style='width: 200px; height: 200px;'>
+  </center>
+  
+    <br>
+
+    <br> 
+    <label> Nombre:  $filatipo[1]</label><br>
+
+    <label> Descripcion de prenda:  $filatipo[2]</label><br>
+    
+    <label> Precio:  $filatipo[4]</label><br>
+   
+    <label ID='CANTIDADDEROPA'> cantidad disponible:  $filatipo[3]</label><br>
+    <label> color:  $filatipo[5]</label><br><br>
+              
+              <center>
+
+                     <button class='btn btn-success'  > 
+                         <a style='color: white; border-radius: 15px;'  href='javascript:mostrarpedido(\"$filatipo[0]\")'>comprar</a> 
+                     </button>
+
+              </center>
+              <br>
+</div>";
+
+
+           }
+
+
+
+
+
+?>
 
 
 </div>
